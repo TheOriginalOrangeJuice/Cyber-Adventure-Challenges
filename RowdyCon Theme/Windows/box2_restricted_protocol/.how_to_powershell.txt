@@ -1,0 +1,27 @@
+HQ sent me a message. Of course it’s encoded. They hit me with: “Decode the entire message in one command.”
+
+One command. One. Singular. No script edits. As a proclaimed "Vibe Coder", I can't script without AI... but I also don't know what to script so I guess I'll refer to the documentation
+
+Step 1:
+When I run the script to get the encoded message, I get a series of numbers. Each one a new line like:
+10
+20
+30
+...
+
+Step 2:
+Since it has to be in one command, I need to redirect this output into another command. Running the comamnd and then "pipe" it into another command. 
+
+I need something that runs once per item. Docs say:
+  ForEach-Object runs a script block for each pipeline item
+  $_ is the current pipeline item
+
+So far I got: ./decrypt_comms.ps1 | ForEach-Object { $_ }
+
+Step 3:
+
+Since the code is in numbers, I need to find a way to convert it into letters. Based on that, the docuementation gave me this command:
+
+(./decrypt_comms.ps1 | ForEach-Object { [X][X]$_ })
+
+Not entirely sure what to fix here. Need to do more reading. Where's my AI when I need it. 

@@ -1,0 +1,9 @@
+Security review scratchpad (local RCC export)
+- Directory indexing is enabled, so anything under /admin-console, /backup, /logs, /staging, /uploads, or /secrets is enumerable with gobuster.
+- Hidden decoy pages live directly in the web root and can be found via common wordlists because nginx returns distinct 200/301 responses.
+- The static export exposes predictable _next asset paths and build IDs, which makes fingerprinting the deployed build trivial.
+- Clerk publishable key material is visible client-side; that is normal for Clerk, but pairing it with verbose hidden routes is sloppy.
+- Access logs are served from /logs/ and should not be world-readable from the public site.
+- The sign-in shell is exported even when the interactive auth app is not present, which leaks feature intent without access control.
+- No rate limiting or auth guard protects /secrets once discovered.
+- Decoy config and env files still advertise stack details (nginx, static Next export, Clerk, challenge tooling).

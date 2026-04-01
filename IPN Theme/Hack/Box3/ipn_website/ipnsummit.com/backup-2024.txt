@@ -1,0 +1,4 @@
+2024 backup checklist
+- exports copied to cloud bucket
+- verify integrity
+- remove stale secrets

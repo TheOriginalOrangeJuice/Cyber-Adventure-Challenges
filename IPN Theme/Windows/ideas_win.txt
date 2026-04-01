@@ -1,0 +1,85 @@
+Ascii: Python Snake operator - same as Linux
+
+Box 1:
+Mission 1: Ghosts in the File System
+Concept: Navigation, hidden files, recursive search, reading files
+The Scenario: You’ve gained PowerShell access to a compromised system. Initial reconnaissance suggests hidden directories and buried text files contain clues.
+The User's Task:
+    1. List all files, including hidden ones, in the current directory.
+    2. Discover a hidden directory named .vault
+    3. Notice a file with users (can be used to search through the files in the vault)
+    5. Reursively search for files containing the word users or password.
+    6. Submit the flag
+The Solution Path: Get-ChildItem -Force --> Set-Location .vault --> Get-ChildItem -Recurse | Select-String "authenticated"
+
+38.13.218.70 - manisha_hirani [17/Dec/2025:17:49:38 -0700] "POST /login/login?user=manisha_hirani&password=myIPNPass&status=authenticated HTTP/1.1" 301 6048 "https://audit.local/login" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 Chrome/110.0"
+
+
+Box 2:
+Mission 2: The Restricted Protocol (Execution Policy & Decoding)
+Concept: Execution Policies, .NET Classes, and Decoding. The Scenario: You found a script named decrypt_comms.ps1 that contains the enemy's escape route. However, this machine is on lockdown.
+The Scenario: You found a script named decrypt_comms.ps1 that contains the enemy's escape route. However, this machine is on lockdown.
+The User's Task:
+    1. When you try to run the script, Windows blocks it because "running scripts is disabled on this system."
+    2. Once you bypass that, the script doesn't print text—it outputs a [System.Byte[]] array (raw numbers). You must convert these numbers back into readable text using PowerShell's .NET integration. The User's Task:
+    3. Attempt to run .\decrypt_comms.ps1. Observe the "Execution Policy" error.
+    4. Run the script again using the bypass flag (-ExecutionPolicy Bypass).
+    5.The output is a series of numbers (e.g., 67 121 98 101 114). Pipe this output into a command that converts [char] values to a string and joins them together
+
+The Solution Path: .\decrypt_comms.ps1 (Fails) --> powershell -ExecutionPolicy Bypass -File .\decrypt_comms.ps1 --> (To Decode): ... | ForEach-Object { [char][int]$_ } | -join ""
+
+
+Box 3:
+Mission 3: Persistence Detected
+Concept: file discovery/filtering, file movement, scheduled tasks (persistence/defense evasion), troubleshooting
+The Scenario: Inside a directory named Evidence, there are many files. Only one is larger than 10 MB — that’s the payload you must exfiltrate. You create an Exfiltrate folder as your drop location, but a hostile Scheduled Task is constantly deleting anything placed inside it.
+
+The User's Task:
+1. Enumerate the files in Evidence and identify the one larger than 10 MB.
+2. Create a folder named Exfiltrate.
+3. Attempt to move the large file into Exfiltrate — notice it disappears.
+4. List scheduled tasks and identify the one responsible for wiping Exfiltrate.
+5. Delete (or disable) the wiping task.
+6. Move the large file into Exfiltrate again.
+7. A second scheduled task detects the file and prints the flag in the console.
+
+Expected Solution Path (Example)
+
+Find the 672 KB file: fad2v0be-5p0b-29c8-bh60-1f82ccb94abb.bin
+
+Get-ChildItem .\Evidence | Where-Object { $_.Length -gt 672KB }
+
+
+Create the drop folder:
+
+New-Item -ItemType Directory .\Exfiltrate
+
+
+Try the move (it will get wiped):
+
+Move-Item .\Evidence\<BIGFILE> .\Exfiltrate\
+
+
+Find the wiping scheduled task (example search patterns):
+
+Get-ScheduledTask
+
+
+Disable it (safe option):
+
+Disable-ScheduledTask -TaskName "<WIPER_TASK_NAME>"
+
+
+OR remove it (hard shutdown):
+
+Unregister-ScheduledTask -TaskName "<WIPER_TASK_NAME>" -Confirm:$false
+
+
+Move the file again:
+
+Move-Item .\Evidence\<BIGFILE> .\Exfiltrate\
+
+
+Confirm it stays:
+
+Get-ChildItem .\Exfiltrate

@@ -1,0 +1,39 @@
+Challenge walkthrough (Box2)
+
+Image build:
+- docker build -t hack-box2 .
+
+Run container (shell override) or SSH:
+- docker run -it --entrypoint /bin/bash hack-box2
+- or: docker run -d -p 2222:22 hack-box2 && ssh hack_IPN2@localhost -p 2222 (password: hack_IPN2)
+
+Prep hashes:
+- unshadow /etc/passwd /etc/shadow > hashes.txt
+
+Cracking steps (using bundled /wordlists):
+- MD5 ($1$): john --wordlist=wordlists/crackstation-mini.txt hashes.txt
+- bcrypt ($2b$): hashcat -a 0 -m 3200 hashes.txt  wordlists/rockyou-mini.txt
+- sha256crypt ($5$): hashcat -a 0 -m 7400 hashes.txt  wordlists/crackstation-mini.txt
+- sha512crypt ($6$): hashcat -a 0 -m 1800 hashes.txt  wordlists/crackstation-mini.txt
+
+Rules:
+
+
+Expected cracked credentials (hashtype_plaintextpasswords):
+- $1$: sunshine, dragon, letmein, football
+- $2b$: monkey, shadow, butterfly
+- $5$: summer2024, dnomaid (via rules from base word diamond using best64.rule)
+- $6$: phoenix
+
+Answers:
+
+MD5_salim_gheewalla_sunshine
+MD5_aziz_kapadia_dragon
+MD5_arshad_somani_letmein
+MD5_marriam_shah_football
+bcrypt_hadi_ibrahimi_monkey
+bcrypt_zain_mitha_shadow
+bcrypt_serena_tejani_butterfly
+sha256_armaan_chakkiwala_summer2024
+sha256_shahzeb_jiwani_dnomaid 
+sha512_murad_kajani_phoenix

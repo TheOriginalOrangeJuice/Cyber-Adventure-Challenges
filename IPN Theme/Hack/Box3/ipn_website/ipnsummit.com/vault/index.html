@@ -1,0 +1,76 @@
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b1020;
+    --panel: #0f172a;
+    --accent: #fcd34d;
+    --text: #e2e8f0;
+  }
+  body {
+    font-family: 'Inter', 'Space Grotesk', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    padding: 2rem;
+    line-height: 1.5;
+  }
+  .vault {
+    max-width: 720px;
+    background: var(--panel);
+    border: 1px solid rgba(148,163,184,0.25);
+    border-radius: 12px;
+    padding: 1.4rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35);
+  }
+  button {
+    background: var(--accent);
+    color: #111827;
+    border: none;
+    padding: 0.65rem 1rem;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 6px 14px rgba(252,211,77,0.35);
+  }
+  ul { list-style: none; padding-left: 0; margin: 1rem 0 0; }
+  li {
+    background: rgba(255,255,255,0.03);
+    border: 1px dashed rgba(148,163,184,0.3);
+    border-radius: 8px;
+    padding: 0.6rem 0.75rem;
+    margin: 0.35rem 0;
+    font-family: 'Space Grotesk', monospace;
+  }
+  .hint { color: #94a3b8; margin-top: 0.5rem; }
+</style>
+
+<div class="vault">
+  <h2>Real Vault.</h2>
+  <p>I was asked to create a key vault to hold the private keys for the admins. So... here you go? What's the point of a "fake" vault if we say it's FAKE???</p>
+  <button id="reveal">Open Fake Vault</button>
+  <ul id="keys" style="display:none;"></ul>
+  <p class="hint">If this were real we'd ask for MFA, biometrics, and a polite please.</p>
+</div>
+
+<script>
+  const list = document.getElementById('keys');
+  const btn = document.getElementById('reveal');
+  const keys = [
+    'key://IPN-GLITTER-VAULT-0026',
+    'ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEh0sTotallyRealKey4Summit',
+    'api_v1_dummy_0xF1A9-C0DE-VAULT',
+    'token_live_fake_2026_JAN02',
+    'vault://read-only/floorplans/houston',
+    'pk_test_DECOY-LABS-ADMIN'
+  ];
+  btn.addEventListener('click', () => {
+    list.innerHTML = '';
+    keys.forEach(k => {
+      const li = document.createElement('li');
+      li.textContent = k;
+      list.appendChild(li);
+    });
+    list.style.display = 'block';
+    btn.textContent = 'Keys (fake) loaded';
+    btn.disabled = true;
+  });
+</script>

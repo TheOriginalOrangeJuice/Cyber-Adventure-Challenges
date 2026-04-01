@@ -1,0 +1,3 @@
+[INFO] Placeholder security log bundle for RCC challenge content.
+[WARN] Public log exposure should be disabled before a real event.
+[INFO] No actual secrets are stored here.

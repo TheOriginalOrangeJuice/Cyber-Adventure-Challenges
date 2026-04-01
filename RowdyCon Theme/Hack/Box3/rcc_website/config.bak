@@ -1,0 +1,5 @@
+# RCC static site placeholder config
+server_name=rowdycybercon.org
+render_mode=next-export
+theme=win98
+note=This file exists to reward directory brute-forcing, not to configure anything useful.

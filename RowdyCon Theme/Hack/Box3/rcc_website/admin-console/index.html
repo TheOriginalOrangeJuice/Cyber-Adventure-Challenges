@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>RCC Admin Console</title>
+    <link data-precedence="next" href="/_next/static/css/d98d82d51a019d8d.css" rel="stylesheet" />
+    <link data-precedence="next" href="/_next/static/css/44d779a42fa907ae.css" rel="stylesheet" />
+    <link href="/favicon.ico" rel="icon" sizes="32x32" type="image/x-icon" />
+    <link href="/decoy-shell.css" rel="stylesheet" />
+  </head>
+  <body class="light retro-page">
+    <div class="win98-bg retro-bg"></div>
+    <div class="site-shell">
+      <div class="chrome-bar">
+        <div class="chrome-title">Rowdy CyberCon - [Internet Explorer]</div>
+        <div class="chrome-buttons">
+          <span class="chrome-button">_</span>
+          <span class="chrome-button">□</span>
+          <span class="chrome-button">x</span>
+        </div>
+      </div>
+      <div class="menu-strip">
+        <span><u>F</u>ile</span>
+        <span><u>E</u>dit</span>
+        <span><u>V</u>iew</span>
+        <span><u>T</u>ools</span>
+        <span><u>H</u>elp</span>
+      </div>
+      <div class="address-strip">
+        <div class="address-label">Address:</div>
+        <div class="address-field">https://rowdycybercon.org/admin-console/</div>
+        <a class="go-button" href="/index.html">Go</a>
+      </div>
+
+      <section class="window-panel">
+        <div class="panel-title">
+          <span>Volunteer Admin Console</span>
+          <span>Ready</span>
+        </div>
+        <div class="panel-body">
+          <h1>Admin Console</h1>
+          <p>One of the RCC volunteers wanted an admin console so we gave them this. Putting it out of sight for now as the convention has started! Check out the other Cyber Panels too!</p>
+          <div class="terminal" id="ghost-log">
+            <div class="terminal-line">boot&gt; loading retro-console.exe</div>
+            <div class="terminal-line">boot&gt; rendering hacker vibes... ok</div>
+            <div class="terminal-line">boot&gt; real admin privileges... missing</div>
+          </div>
+          <div class="status-note">
+            Tip: this page is pure theater. The only thing it successfully automates is disappointment.
+          </div>
+        </div>
+      </section>
+    </div>
+    <script>
+      (function () {
+        var logEl = document.getElementById("ghost-log");
+        var lines = [
+          "ghost&gt; opening badge-printer socket... denied",
+          "ghost&gt; syncing volunteer shifts... ok",
+          "ghost&gt; locating ctf finals bracket... ok",
+          "ghost&gt; granting admin powers to interns... absolutely not",
+          "ghost&gt; routing curious visitors toward workshops",
+          "ghost&gt; checking event date: April 11, 2026",
+          "ghost&gt; enabling cool terminal noises... imaginary",
+          "ghost&gt; reminder: the real secret is somewhere else"
+        ];
+        var index = 0;
+        window.setInterval(function () {
+          var row = document.createElement("div");
+          row.className = "terminal-line";
+          row.textContent = lines[index % lines.length];
+          logEl.appendChild(row);
+          if (logEl.children.length > 18) {
+            logEl.removeChild(logEl.firstElementChild);
+          }
+          index += 1;
+        }, 950);
+      })();
+    </script>
+  </body>
+</html>

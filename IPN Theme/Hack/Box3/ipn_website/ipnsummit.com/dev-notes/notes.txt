@@ -1,0 +1,9 @@
+Security review scratchpad (local copy)
+- Directory indexing is on; anything under /admin-console, /backup, /logs, /secrets is enumerable with gobuster.
+- Static hash left on /secrets uses SHA512-crypt but sits in plain sight; needs rate limiting + auth.
+- Decoy configs (/config.bak, /env.sample) still show key names; scrub before pushing new exports.
+- No cache-busting on speaker pages; stale bios could leak drafts between builds.
+- Nginx autoindex + verbose 30x/40x responses expose internal paths; tighten error pages.
+- Access logs are world-readable from the web root; rotate + relocate.
+- CSP/Referrer-Policy headers absent in nginx default; add before go-live.
+- Uploads directory lacks validation hooks; disable direct serve or enforce signed URLs.

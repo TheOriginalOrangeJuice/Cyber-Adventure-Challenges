@@ -1,0 +1,107 @@
+version: "3.9"
+
+services:
+  scout-a:
+    image: debian:bullseye
+    container_name: scout-a
+    command: |
+      bash -lc "
+      export DEBIAN_FRONTEND=noninteractive
+      apt-get update
+      apt-get install -y --no-install-recommends openssh-server vsftpd nginx redis-server memcached rsync;
+      mkdir -p /var/run/sshd /run/sshd /srv/rsync && ssh-keygen -A && echo 'root:rootpass' | chpasswd
+      echo '[public]' > /etc/rsyncd.conf
+      echo '  path = /srv/rsync' >> /etc/rsyncd.conf
+      echo '  read only = yes' >> /etc/rsyncd.conf
+      redis-server --protected-mode no --bind 0.0.0.0 --port 6379 &
+      memcached -u memcache -p 11211 -m 64 -vv &
+      /usr/bin/rsync --daemon --no-detach --config=/etc/rsyncd.conf &
+      sed -i 's/listen 80 default_server;/listen 8080 default_server;/' /etc/nginx/sites-enabled/default
+      sed -i 's/listen \[::\]:80 default_server;/listen [::]:8080 default_server;/' /etc/nginx/sites-enabled/default
+      nginx -g 'daemon off;' &
+      /usr/sbin/vsftpd &
+      /usr/sbin/sshd -D &
+      tail -f /dev/null
+      "
+    networks:
+      hack_ipn1_net:
+        ipv4_address: 172.18.0.5
+
+  scout-b:
+    image: debian:bookworm
+    container_name: scout-b
+    command: |
+      bash -lc "
+      export DEBIAN_FRONTEND=noninteractive
+      apt-get update
+      apt-get install -y --no-install-recommends proftpd-basic apache2 bind9 tftpd-hpa snmpd inetutils-inetd telnetd rsync socat;
+      sed -i 's/^#\?port=69/port=69/' /etc/default/tftpd-hpa
+      echo 'agentAddress udp:0.0.0.0:161' > /etc/snmp/snmpd.conf
+      echo 'telnet stream tcp nowait root /usr/sbin/in.telnetd in.telnetd' >> /etc/inetd.conf
+      sed -i \"s/listen-on port 53 { 127.0.0.1; };/listen-on port 53 { any; };/; s/allow-query { localhost; };/allow-query { any; };/; s/listen-on-v6 { ::1; };/listen-on-v6 { any; };/\" /etc/bind/named.conf
+      mkdir -p /srv/tftp
+      /usr/sbin/named -c /etc/bind/named.conf -g -u bind &
+      in.tftpd --foreground --user tftp --address :69 --secure /srv/tftp &
+      snmpd -Lf /var/log/snmpd.log -f &
+      apache2ctl -D FOREGROUND &
+      /usr/sbin/proftpd -n &
+      inetutils-inetd &
+      /usr/sbin/rsync --daemon --no-detach --config=/etc/rsyncd.conf &
+      socat TCP-LISTEN:35567,reuseaddr,fork EXEC:/bin/sh &
+      tail -f /dev/null
+      "
+    networks:
+      hack_ipn1_net:
+        ipv4_address: 172.18.0.9
+
+  scout-c:
+    image: ubuntu:jammy
+    container_name: scout-c
+    command: |
+      bash -lc "
+      export DEBIAN_FRONTEND=noninteractive
+      apt-get update
+      apt-get install -y --no-install-recommends minetest-server openssh-server apache2 vsftpd mosquitto netcat-openbsd socat;
+      mkdir -p /var/run/sshd /run/sshd && ssh-keygen -A && echo 'root:rootpass' | chpasswd
+      sed -i 's/80/8081/g' /etc/apache2/ports.conf /etc/apache2/sites-available/000-default.conf
+      apache2ctl -D FOREGROUND &
+      /usr/sbin/vsftpd &
+      mkdir -p /etc/mosquitto/conf.d && echo 'listener 1883 0.0.0.0' > /etc/mosquitto/conf.d/listener.conf
+      mosquitto -c /etc/mosquitto/conf.d/listener.conf -v &
+      mkdir -p /var/lib/minetest/.minetest/worlds/nmap_world
+      /usr/games/minetestserver --world /var/lib/minetest/.minetest/worlds/nmap_world --port 25565 --gameid minetest_game &>/var/log/minetest.log &
+      socat TCP-LISTEN:25565,reuseaddr,fork EXEC:/bin/cat &
+      nc -lvkp 5900 &
+      /usr/sbin/sshd -D &
+      tail -f /dev/null
+      "
+    networks:
+      hack_ipn1_net:
+        ipv4_address: 172.18.0.14
+
+  ipnsummit-web:
+    image: nginx:alpine
+    container_name: ipnsummit-web
+    ports:
+      - "80:8090"
+    volumes:
+      - /home/ipn/IPN/Hack/Box3/ipn_website/ipnsummit.com:/usr/share/nginx/html:ro
+      - /home/ipn/IPN/Hack/Box3/nginx-autoindex.conf:/etc/nginx/conf.d/default.conf:ro
+    
+    networks:
+      hack_ipn3_net:
+        ipv4_address: 172.19.0.7
+
+networks:
+  hack_ipn1_net:
+    name: hack_ipn1_net
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/27
+  hack_ipn3_net:
+    name: hack_ipn3_net
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.19.0.0/27

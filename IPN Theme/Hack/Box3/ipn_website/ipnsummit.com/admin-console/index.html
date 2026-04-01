@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>IPN Admin Console (Totally Real)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0c0f17;
+      --panel: #121826;
+      --accent: #fcd34d;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at 20% 20%, rgba(252,211,77,0.08), transparent 25%),
+                  radial-gradient(circle at 80% 10%, rgba(52,211,153,0.08), transparent 25%),
+                  var(--bg);
+      color: var(--text);
+      font-family: 'Inter', 'Space Grotesk', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+    .console {
+      width: min(900px, 100%);
+      background: var(--panel);
+      border: 1px solid rgba(148,163,184,0.2);
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      overflow: hidden;
+    }
+    .console__header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 16px;
+      background: rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(148,163,184,0.2);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .lights {
+      display: flex;
+      gap: 6px;
+      margin-right: 12px;
+    }
+    .light { width: 10px; height: 10px; border-radius: 50%; opacity: 0.8; }
+    .red { background: #f87171; }
+    .amber { background: #fbbf24; }
+    .green { background: #34d399; }
+    .console__body { padding: 18px; }
+    .prompt {
+      display: flex;
+      gap: 12px;
+      font-family: 'Space Grotesk', 'Inter', monospace;
+      color: var(--accent);
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .ghost-log {
+      height: 360px;
+      overflow: hidden;
+      font-family: 'Space Grotesk', 'Inter', monospace;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(148,163,184,0.12);
+      border-radius: 10px;
+      padding: 14px;
+      line-height: 1.5;
+      font-size: 13px;
+    }
+    .ghost-log div { white-space: pre; }
+    .hint {
+      margin-top: 14px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .tag {
+      display: inline-block;
+      background: rgba(252,211,77,0.1);
+      color: var(--accent);
+      border: 1px solid rgba(252,211,77,0.3);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+  <div class="console">
+    <div class="console__header">
+      <div class="lights">
+        <span class="light red"></span>
+        <span class="light amber"></span>
+        <span class="light green"></span>
+      </div>
+      IPN :: Volunteer "Admin Console"
+    </div>
+    <div class="console__body">
+      <div class="prompt"><span class="tag">ghost shell</span><span>$ whoami</span></div>
+      <div class="ghost-log" id="ghost-log"></div>
+      <p class="hint">One of the IPN volunteers wanted an admin console so we gave them this. Putting it out of sight for now as the convention has started! Check out the other Cyber Panels too.</p>
+    </div>
+  </div>
+  <script>
+    const logEl = document.getElementById('ghost-log');
+    const lines = [
+      '[INFO] Booting pretend control plane...',
+      '[WARN] Attempting to elevate vibes... success.',
+      '[INFO] Loading speaker badges from cache.',
+      '[DEBUG] /admin-console is just a hologram.',
+      '[TRACE] Routing curious visitors to cyber panels.',
+      '[INFO] Deploying glitter firewall.',
+      '[WARN] No real commands wired. Enjoy the show.',
+      '[INFO] Checking summit clock: JAN 02-04, 2026.',
+      '[DEBUG] Ghost script: tail -f imagination.log',
+      '[INFO] Tip: gobuster is more helpful than this page.'
+    ];
+    let idx = 0;
+    function addLine() {
+      const row = document.createElement('div');
+      row.textContent = lines[idx % lines.length];
+      logEl.appendChild(row);
+      if (logEl.children.length > 30) {
+        logEl.removeChild(logEl.firstChild);
+      }
+      idx++;
+    }
+    addLine();
+    setInterval(addLine, 900);
+  </script>
+</body>
+</html>

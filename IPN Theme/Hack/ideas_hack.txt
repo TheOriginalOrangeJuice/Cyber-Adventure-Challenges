@@ -1,0 +1,45 @@
+ASCII Art: Similar to the snake one but its a hacker and a text bubble
+
+Mission 1: The Cartographer (Network Reconnaissance)
+Tool: Nmap (Network Mapper) 
+Concept: Port Scanning, Service Version Detection, and OS Fingerprinting. 
+The Scenario: We need to breach the IPN Summit. First we need to find a device we can use to access. There should be some random port running a random program. Find the OS, Version, and the Name of the Service/Port 
+The User's Task:
+    1. Discover live hosts on the subnet.
+    2. Scan the target for open ports.
+    3. Identify the unusual service running on a non-standard port.
+    4. Extract the disguised service name and version — this forms the flag.
+
+
+Commands: - We also need to change the /etc/serivces file to match the IP. Find boxes to setup a docker compose file. 
+nmap -sn -sV -p- 10.10.10.0/24
+
+Answer: port_nameOfService_Version
+
+
+Mission 2: The Keymaster (Password Cracking)
+Tool: John the Ripper (John) or Hashcat (Either works)
+Concept: Password Cracking
+The Scenario: Now that we're in, we need to get the passwords of the main user. We've put some password cracking tools on the machine. Use them to crack all the passwords on the system. Find the password that seems like the master password.  
+The User's Task:
+    1. Identify the hash type.
+    2. Crack all hashes using a 100-word to 500 wordlist.
+    3. Display cracked credentials.
+    4. The password of the target user is the flag.
+
+hashType_hash_password
+
+Have a bonus flag for a password that requires some rule manipulation. The Shadowers file should have a mix of hashes from $1$ to $6$
+
+Mission 3: The Spider (Web Enumeration)
+Tool: Gobuster 
+Concept: Directory Brute-forcing and Hidden Paths. 
+The Scenario: There is a web server running on port 8080 (they need to use NMAP) (See IP:8080). The website is the Ipnsummit page. However, the developers often leave hidden administrative panels or backup files that aren't linked anywhere. We need to find some type of secrets on the website. Once you find it, try to decrypt and find the flag. 
+
+On the "secrets" page, we will have message that states "For all IPN Admins, here is the master password. Use the key we sent in your emails to decrypt it as we've manipualted the password to not be a simple word. Complexity at its finest.
+
+The User's Task:
+1. Identify the target URL and port (using nmap).
+2. Enumerate hidden directories with gobuster
+3. Use john and rules to crack the hash.
+gobuster dir -u http://<TARGET_IP>:<PORT> -w wordlist.txt

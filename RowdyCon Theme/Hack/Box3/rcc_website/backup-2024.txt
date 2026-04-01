@@ -1,0 +1,4 @@
+legacy backup checklist
+- confirm sponsor packet export
+- verify register page snapshot
+- remove stale admin decoys before launch

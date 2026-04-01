@@ -1,0 +1,22 @@
+# Feature flags and platform credits for the RCC hack series
+retro_shell_enabled=true
+faq_window_mode=true
+partner_packet_banner=true
+register_cta_priority=high
+autoindex_enabled=true
+admin_console_realism=low
+
+# Application stack
+next_static_export=true
+clerk_auth_shell=true
+nginx_frontend=true
+docker_compose_orchestration=true
+
+# Challenge tooling
+nmap_enabled=true
+gobuster_enabled=true
+john_the_ripper=true
+hashcat_available=true
+openssh_entrypoint=true
+custom_wordlists_pack=true
+decoy_logging=true

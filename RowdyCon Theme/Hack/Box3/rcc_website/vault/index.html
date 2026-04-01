@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <title>RCC Vault</title>
+    <link data-precedence="next" href="/_next/static/css/d98d82d51a019d8d.css" rel="stylesheet" />
+    <link data-precedence="next" href="/_next/static/css/44d779a42fa907ae.css" rel="stylesheet" />
+    <link href="/favicon.ico" rel="icon" sizes="32x32" type="image/x-icon" />
+    <link href="/decoy-shell.css" rel="stylesheet" />
+  </head>
+  <body class="light retro-page">
+    <div class="win98-bg retro-bg"></div>
+    <div class="site-shell">
+      <div class="chrome-bar">
+        <div class="chrome-title">Rowdy CyberCon - [Internet Explorer]</div>
+        <div class="chrome-buttons">
+          <span class="chrome-button">_</span>
+          <span class="chrome-button">□</span>
+          <span class="chrome-button">x</span>
+        </div>
+      </div>
+      <div class="menu-strip">
+        <span><u>F</u>ile</span>
+        <span><u>E</u>dit</span>
+        <span><u>V</u>iew</span>
+        <span><u>T</u>ools</span>
+        <span><u>H</u>elp</span>
+      </div>
+      <div class="address-strip">
+        <div class="address-label">Address:</div>
+        <div class="address-field">https://rowdycybercon.org/vault/</div>
+        <a class="go-button" href="/index.html">Go</a>
+      </div>
+
+      <section class="window-panel">
+        <div class="panel-title">
+          <span>Fake Key Vault</span>
+          <span>read-only</span>
+        </div>
+        <div class="panel-body">
+          <h1>Totally serious vault</h1>
+          <p>I was asked to create a key vault to hold the private keys for the admins. So... here you go? What's the point of a fake vault if we say it's fake???</p>
+          <div class="action-row">
+            <button class="win98-btn" id="reveal" type="button">Open Fake Vault</button>
+          </div>
+          <ul class="vault-list" id="keys" hidden>
+            <li>key://RCC-FLOPPY-VAULT-0411</li>
+            <li>ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBadCoffeeAndChaos</li>
+            <li>pk_test_RetroDesktopAdminOnly</li>
+            <li>vault://rowdy/read-only/partner-packet</li>
+            <li>token_live_not_actually_live_2026</li>
+            <li>ctf-final-round-masterkey-but-not-really</li>
+          </ul>
+          <p class="small-note" style="margin-top: 12px;">If this were real we'd ask for MFA, a yubikey, and a written apology to the SOC.</p>
+        </div>
+      </section>
+    </div>
+    <script>
+      (function () {
+        var button = document.getElementById("reveal");
+        var keys = document.getElementById("keys");
+        button.addEventListener("click", function () {
+          keys.hidden = false;
+          button.textContent = "Keys loaded";
+          button.disabled = true;
+        });
+      })();
+    </script>
+  </body>
+</html>

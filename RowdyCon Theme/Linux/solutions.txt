@@ -1,0 +1,21 @@
+Box 1 (Breadcrumbs)
+1) ssh linuxRCC1@<host> -p <port>                         # connect (password: linuxRCC1)
+2) ls -la                                                  # reveal the hidden-looking folder with space in the name
+3) cd "rcc_breach_note s"                                  # enter the folder (quote the space)
+4) cat .note_to_self.txt                                   # read the hidden note
+
+Box 2 (Haystack)
+1) ssh linuxRCC2@<host> -p <port>                          # connect (password: RCC{how_did_you_read_this_if_it_was_hidden?})
+2) find ~/vault -type f -name 'rcc_users.txt'              # locate the target file amid the haystack
+3) sudo chattr -i ~/vault/rcc_users.txt                    # clear immutable so it can be moved
+4) mkdir -p ~/evidence                                     # create the evidence folder
+5) mv ~/vaultlog_067_2025-12-17_proxy.log    ~/evidence/   # move the file into evidence
+6) md5sum ~/evidence/log_067_2025-12-17_proxy.log          # verify hash is 38c52efc34dde052ed9abae002fa5361 (adjust file to match)
+# Once the hash matches, cron will echo the flag to /dev/pts/0 each minute (every 5 seconds within the minute).
+
+Box 3 (Locked Pipeline)
+1) ssh linuxRCC3@<host> -p <port>                          # connect (password: RCC{seaching_through_files_just_got_a_lot_easier})
+2) cd ~                                                    # go to home where decrypt.sh lives
+3) sudo chown joshua_silva:joshua_silva decrypt.sh         # satisfy ownership requirement
+4) sudo chmod +x decrypt.sh                                # allow execution (sudoers allows chmod)
+5) ./decrypt.sh | base64 -d                                # piping required; yields the decoded flag

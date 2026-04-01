@@ -1,0 +1,17 @@
+# Feature flags & tool credits (Hack series)
+search_redesign=false
+new_nav=true
+experimental_cta=false
+autoindex_enabled=true
+admin_console_realism=low
+
+# Hack-series tooling (credits)
+nmap_enabled=true        # Mission 1 recon
+gobuster_enabled=true    # Mission 3 directory hunt
+john_the_ripper=true     # Mission 2 cracking
+hashcat=true             # Alternate crack path
+openssh=true            # SSH entry for all boxes
+nginx=true              # Hosts the summit site + decoys
+docker_compose=true     # Orchestrates the labs
+wordlists_pack=true     # Custom 500+ dirs for gobuster
+logging_decoys=true     # Access logs sprinkled for OSINT

@@ -1,0 +1,369 @@
+\documentclass[10pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[landscape,margin=0.18in]{geometry}
+\usepackage{lmodern}
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{color}
+\usepackage{multicol}
+\usepackage{tabularx}
+% url is optional; keep simple TeX-only formatting.
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\columnsep}{0.65em}
+
+\definecolor{bandbg}{gray}{0.975}
+\definecolor{subbg}{gray}{0.995}
+
+\definecolor{LinuxAccent}{rgb}{0.00,0.45,0.25}
+\definecolor{WindowsAccent}{rgb}{0.10,0.25,0.70}
+\definecolor{CryptoAccent}{rgb}{0.65,0.40,0.05}
+\definecolor{HackAccent}{rgb}{0.55,0.15,0.60}
+
+\newcommand{\tightlist}{%
+  \setlength{\itemsep}{0.02em}%
+  \setlength{\topsep}{0.04em}%
+  \setlength{\parsep}{0em}%
+  \setlength{\parskip}{0em}%
+}
+
+\setlength{\leftmargini}{1.2em}
+\setlength{\labelsep}{0.4em}
+\newenvironment{tightitemize}{\begin{itemize}\tightlist}{\end{itemize}}
+\newenvironment{flaglist}{%
+  \begin{itemize}\tightlist
+  \setlength{\leftmargini}{1.5em}
+  \renewcommand{\labelitemi}{\textcolor{\AccentColor}{\scriptsize\textbullet}}
+}{\end{itemize}}
+
+\newcommand{\cmd}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\cmdname}[1]{\textcolor{\AccentColor}{\textbf{\cmd{#1}}}}
+\newcommand{\flag}[1]{\textcolor{\AccentColor}{\textbf{\cmd{#1}}}}
+\newcommand{\exlabel}{\textcolor{\AccentColor}{\textbf{Example:}}}
+\newcommand{\tip}[1]{\textcolor{\AccentColor}{\textbf{Tip:}} #1}
+\newcommand{\cryptoitem}[3]{%
+  \begin{tabularx}{\linewidth}{@{}l >{\raggedleft\arraybackslash}X@{}}
+    \textcolor{\AccentColor}{\textbf{#1}} & {\scriptsize \exlabel\ \texttt{#3}}\\
+  \end{tabularx}\par
+  {\scriptsize \textbf{Identify:} #2}\par\vspace{0.05em}
+}
+\newcommand{\cipheritem}[5]{%
+  \textcolor{\AccentColor}{\textbf{#1}}\par
+  {\scriptsize \textbf{Identify:} #2}\par
+  {\scriptsize \exlabel\ \cmd{PT: #3} \ \cmd{Key: #4} \ \cmd{CT: #5}}\par\vspace{0.10em}
+}
+\newcommand{\cmdline}[3]{%
+  \begin{tabularx}{\linewidth}{@{}l >{\raggedleft\arraybackslash}X@{}}
+    \cmdname{#1} & {\scriptsize \exlabel\ \cmd{#2}}\\
+  \end{tabularx}\par
+  {\scriptsize #3}\par
+  \vspace{0.02em}
+}
+
+\newcommand{\SubBox}[2]{%
+  \par\noindent
+  \fcolorbox{\AccentColor}{subbg}{%
+    \begin{minipage}[t]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+    \sloppy
+    {\textcolor{\AccentColor}{\bfseries #1}}\par\vspace{0.2em}
+    #2
+    \vspace{0.05em}
+    \end{minipage}}%
+  \par\vspace{0.18em}
+}
+
+\newcommand{\Band}[3]{%
+  \begingroup
+  \def\AccentColor{#2}%
+  \setlength{\fboxsep}{5pt}%
+  \setlength{\fboxrule}{0.6pt}%
+  \noindent\fcolorbox{\AccentColor}{bandbg}{%
+    \begin{minipage}[t]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+    \vspace{0pt}
+    {\Large\textcolor{\AccentColor}{\bfseries #1}}\par
+    {\color{\AccentColor}\rule{\linewidth}{0.6pt}}\par\vspace{0.25em}
+    \scriptsize
+    #3
+    \end{minipage}}%
+  \par
+  \endgroup
+}
+
+\newcommand{\BandH}[4]{%
+  \begingroup
+  \def\AccentColor{#2}%
+  \setlength{\fboxsep}{5pt}%
+  \setlength{\fboxrule}{0.6pt}%
+  \noindent\fcolorbox{\AccentColor}{bandbg}{%
+    \begin{minipage}[t][\dimexpr#3-2\fboxsep-2\fboxrule\relax][t]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+    \vspace{0pt}
+    {\Large\textcolor{\AccentColor}{\bfseries #1}}\par
+    {\color{\AccentColor}\rule{\linewidth}{0.6pt}}\par\vspace{0.25em}
+    \scriptsize
+    #4
+    \vfill
+    \end{minipage}}%
+  \par
+  \endgroup
+}
+
+\newcommand{\ThreeCols}[3]{%
+  \noindent
+  \begin{minipage}[t]{0.325\linewidth}\vspace{0pt}#1\end{minipage}\hfill
+  \begin{minipage}[t]{0.325\linewidth}\vspace{0pt}#2\end{minipage}\hfill
+  \begin{minipage}[t]{0.325\linewidth}\vspace{0pt}#3\end{minipage}\par
+}
+
+\begin{document}
+\pagestyle{empty}
+
+\BandH{Linux (Quick Reference)}{LinuxAccent}{0.52\textheight}{%
+  {\footnotesize \tip{Spaces matter:} wrap folders in quotes, e.g. \cmd{cd "My Folder"}.\par}
+  \vspace{0.10em}
+  \ThreeCols
+  {%
+    \SubBox{Remote Access}{%
+      \cmdline{ssh}{ssh user@host -p 2222}{Remote login to a machine.}
+      \begin{flaglist}
+        \item \flag{-p} port (sometimes not 22).
+        \item \flag{-i} identity key file (private key).
+      \end{flaglist}
+      \cmdline{scp}{scp -P 2222 user@host:~/file.txt .}{Copy files over SSH.}
+      \begin{flaglist}
+        \item \flag{-P} port (capital P).
+        \item \flag{-r} recursive copy of folders.
+      \end{flaglist}
+    }
+
+    \SubBox{Navigating the Terminal}{%
+      \cmdline{pwd}{pwd}{Show current folder.}
+      \cmdline{ls}{ls -lah}{List files (including hidden).}
+      \begin{flaglist}
+        \item \flag{-l} long listing (perms/owner/size/time).
+        \item \flag{-a} include dot (hidden) files.
+        \item \flag{-h} human-readable sizes.
+      \end{flaglist}
+      \cmdline{cd}{cd /path/to/folder}{Change folders (use quotes if spaces).}
+    }
+  }
+  {%
+    \SubBox{Searching \& Viewing Files}{%
+      \cmdline{cat}{cat notes.txt}{Print a file quickly.}\vspace{0.10em}
+      \cmdline{less}{less -N bigfile.txt}{Scroll a file (\cmd{q} quits).}\vspace{0.10em}
+      \cmdline{tail}{tail -n 50 file.log}{Last lines (add \flag{-f} to follow).}\vspace{0.12em}
+      \cmdline{find}{find ~/data -type f -name 'users.txt'}{Search by name (use \flag{-type f} files, \flag{-iname} ignore case).}\vspace{0.10em}
+      \cmdline{grep}{grep -Rni keyword ~/data}{Search inside files (\flag{-R} recursive, \flag{-n} lines, \flag{-i} ignore case).}
+    }
+
+    \SubBox{Piping \& Redirection}{%
+      \cmdline{|}{cat file.txt | grep -i error}{Send output from one command into another.}
+      \begin{flaglist}
+        \item \flag{>} overwrite output: \cmd{echo hi > out.txt}
+        \item \flag{>>} append output: \cmd{echo hi >> out.txt}
+        \item \flag{2>/dev/null} hide errors (stderr).
+      \end{flaglist}
+    }
+  }
+  {%
+    \SubBox{Creating \& Moving Files}{%
+      \cmdline{mkdir}{mkdir -p ~/work/output}{Create folders.}
+      \begin{flaglist}
+        \item \flag{-p} create parents, no error if exists.
+      \end{flaglist}
+      \cmdline{mv}{mv report.txt ~/work/output/}{Move/rename (use \flag{-i} prompt, \flag{-v} verbose).}
+      \cmdline{cp}{cp -a src/ backup/}{Copy (use \flag{-a} preserve, \flag{-r} recursive).}
+    }
+
+    \SubBox{Permissions \& Validation}{%
+      \cmdline{chmod}{chmod +x script.sh}{Make a script executable.}
+      \cmdline{sudo}{sudo -l}{List allowed admin commands.}
+      \cmdline{chown}{sudo chown user:group script.sh}{Change owner/group.}
+      \cmdline{lsattr}{lsattr important.txt}{Show attributes (\textbf{immutable} means “locked”).}
+      \cmdline{chattr}{sudo chattr -i important.txt}{Remove immutable (\flag{-i}); \flag{+i} adds it.}
+      \cmdline{md5sum}{md5sum file.bin}{Check integrity with a hash.}
+      \cmdline{base64}{base64 -d < secret.b64}{Decode Base64 text to bytes.}
+    }
+  }
+}
+
+\vspace{0.02em}
+
+\BandH{Windows (Quick Reference)}{WindowsAccent}{0.47\textheight}{%
+  \vspace{0.02em}
+  \ThreeCols
+  {%
+    \SubBox{Explore \& Read}{%
+      \cmdline{Get-ChildItem}{Get-ChildItem -Force}{List files (including hidden).}
+      \begin{flaglist}
+        \item \flag{-Force} show hidden/system.
+        \item \flag{-Recurse} walk folders.
+      \end{flaglist}
+      \cmdline{Set-Location}{Set-Location C:\\Temp}{Change directory.}
+      \cmdline{Get-Content}{Get-Content .\\notes.txt}{Print a file.}
+      \begin{flaglist}
+        \item \flag{-Tail 50} last 50 lines.
+        \item \flag{-Wait} follow like \cmd{tail -f}.
+      \end{flaglist}
+    }
+
+    \SubBox{Search \& Filter}{%
+      \cmdline{Select-String}{Get-ChildItem -Recurse | Select-String keyword}{Search inside files (grep-like).}
+      \begin{flaglist}
+        \item \flag{-CaseSensitive} exact matching.
+        \item \flag{-SimpleMatch} no regex.
+      \end{flaglist}
+      \cmdline{Where-Object}{gci . | Where-Object Length -gt 10MB}{Filter objects by properties (size, name, etc.).}
+    }
+  }
+  {%
+    \SubBox{Run Scripts (Policy)}{%
+      \cmdline{powershell}{powershell -ExecutionPolicy Bypass -File .\\script.ps1}{Run scripts even if policy blocks it.}
+      \begin{flaglist}
+        \item \flag{-ExecutionPolicy Bypass} ignore policy for this run.
+        \item \flag{-NoProfile} faster, fewer surprises.
+      \end{flaglist}
+    }
+
+    \SubBox{Decode Bytes (Simple)}{%
+      \cmdline{Char to int}{[int][char]'A'}{Convert a character to its numeric code (ASCII/Unicode).}
+    }
+
+    \SubBox{Scheduled Tasks}{%
+      \cmdline{Get-ScheduledTask}{Get-ScheduledTask}{List scheduled tasks.}
+      \cmdline{Disable-ScheduledTask}{Disable-ScheduledTask -TaskName 'TaskName'}{Safest: disable a task.}
+      \cmdline{Unregister-ScheduledTask}{Unregister-ScheduledTask -TaskName 'TaskName' -Confirm:\$false}{Remove a task.}
+    }
+  }
+  {%
+    \SubBox{Move \& Hash}{%
+      \cmdline{New-Item}{New-Item -ItemType Directory .\\Drop}{Create a folder.}
+      \cmdline{Move-Item}{Move-Item .\\src\\file.bin .\\Drop\\}{Move a file.}
+      \cmdline{Get-FileHash}{Get-FileHash .\\Drop\\file.bin -Algorithm SHA256}{Verify file hash.}
+      \begin{flaglist}
+        \item \flag{-Algorithm} SHA256, MD5, etc.
+      \end{flaglist}
+    }
+
+    \SubBox{Piping (PowerShell Style)}{%
+      \cmdline{|}{Get-Process | Sort-Object CPU -Desc | Select-Object -First 5}{Pipes \textbf{objects} (not raw text).}
+      \cmdline{|}{1..5 | ForEach-Object { [char](\$_+64) } -join ''}{Transform each item, then join into a string.}
+      \begin{flaglist}
+        \item \cmdname{Select-Object} pick columns / first N.
+        \item \cmdname{Where-Object} filter (like \cmd{grep}).
+        \item \cmdname{ForEach-Object} transform each item.
+        \item \cmdname{Select-String} search inside text (grep-like).
+      \end{flaglist}
+    }
+  }
+}
+
+\newpage
+
+\BandH{Cryptography (Quick Reference)}{CryptoAccent}{0.495\textheight}{%
+  {\footnotesize \tip{When stuck, use CyberChef:} \cmd{https://gchq.github.io/CyberChef/}\par}
+  \vspace{0.10em}
+  \begin{multicols}{2}
+    \SubBox{Base Encodings}{%
+      \cryptoitem{Base64}{Chars \texttt{A--Z a--z 0--9 + /}; often ends with \texttt{=} padding}{SGVsbG8=}
+      \cryptoitem{Base32}{Chars \texttt{A--Z 2--7}; often ends with \texttt{=} padding}{JBSWY3DP}
+      \cryptoitem{Base58}{No \texttt{0 O I l}; common in crypto addresses}{3mJr7AoUXx2Wqd}
+      \cryptoitem{Base64url}{Like Base64 but uses \texttt{- \_} (no \texttt{+ /}); common in JWT}{eyJhbGciOiJIUzI1NiJ9}
+    }
+
+    \SubBox{Numeric \& Hex}{%
+      \cryptoitem{Binary}{Only \texttt{0/1} (often grouped in 8s)}{01001000 01101001}
+      \cryptoitem{Hex (Base16)}{Only \texttt{0--9 a--f}; often even length}{4a6f686e}
+      \cryptoitem{Octal}{Digits \texttt{0--7}; shows up in perms like \texttt{755}}{0755}
+    }
+
+    \SubBox{Web \& Text Escapes}{%
+      \cryptoitem{URL (\%HH)}{Contains \texttt{\%HH} sequences (H = hex digit)}{hello\%20world\%21}
+      \cryptoitem{HTML entities}{Starts with \texttt{\&} like \texttt{\&lt;} or \texttt{\&\#60;}}{\&lt;script\&gt;}
+      \cryptoitem{Unicode escapes}{Sequences like \texttt{\textbackslash u0041} or \texttt{\textbackslash x41}}{\textbackslash u0041\textbackslash u0042}
+    }
+
+    \SubBox{Classic Ciphers}{%
+      \cipheritem{ROT13}{Letters-only text; key is fixed (13)}{HELLO}{13}{URYYB}
+      \cipheritem{Caesar shift}{Like ROT13 but key can be 1--25}{HELLO}{3}{KHOOR}
+      \cipheritem{Atbash}{Alphabet reversed; no key (A$\leftrightarrow$Z)}{HELLO}{(none)}{SVOOL}
+      \cipheritem{Vigen\`ere}{Keyed shifts; ciphertext looks like letters; try if a key is hinted}{ATTACKATDAWN}{LEMON}{LXFOPVEFRNHR}
+      \cipheritem{XOR}{Often shown as hex; key may repeat across text}{FLAG}{0x20}{flag}
+    }
+
+    \SubBox{Hashes (Not Encryption)}{%
+      \cryptoitem{MD5}{32 hex chars}{5d41402abc4b2a76b9719d911017c592}
+      \cryptoitem{SHA1}{40 hex chars}{da39a3ee5e6b4b0d3255bfef95601890afd80709}
+      \cryptoitem{SHA256}{64 hex chars}{e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855}
+      \cryptoitem{bcrypt}{Starts with \texttt{\$2a\$}/\texttt{\$2b\$}/\texttt{\$2y\$}}{\$2y\$10\$abcdefghijklmnopqrstuv}
+    }
+  \end{multicols}
+}
+
+\vspace{0.06em}
+
+\BandH{Hack (Recon \& Cracking)}{HackAccent}{0.495\textheight}{%
+  {\footnotesize \tip{Scan first, then enumerate what you find.} Keep notes as you go.\par}
+  \vspace{0.10em}
+  \ThreeCols
+  {%
+    \SubBox{Host Enumeration (First 2 Minutes)}{%
+      \cmdline{whoami}{whoami}{Who you are (current user).}
+      \cmdline{id}{id}{Your groups (useful for permissions).}
+      \cmdline{ip}{ip a}{Network interfaces + IPs.}
+      \cmdline{ss}{ss -tulpn}{What services are listening (ports).}
+      \cmdline{uname}{uname -a}{Kernel / system info.}
+    }
+
+    \SubBox{Network Recon (nmap)}{%
+      \cmdline{Discover hosts}{nmap -sn 192.168.1.0/24}{Host discovery only (\flag{-sn}), no ports.}
+      \cmdline{Service scan}{nmap -p- -sV TARGET}{All ports (\flag{-p-}) + versions (\flag{-sV}).}
+      \cmdline{Quick scripts}{nmap -sC -sV TARGET}{Default scripts (\flag{-sC}) for common checks.}
+      \cmdline{Save output}{nmap -sV -oN scan.txt TARGET}{Write output to a file (\flag{-oN}).}
+    }
+  }
+  {%
+    \SubBox{Web Enumeration (gobuster)}{%
+      \cmdline{Dir brute force}{gobuster dir -u http://TARGET:PORT -w wordlist.txt}{Find hidden paths.}
+      \begin{flaglist}
+        \item \flag{-x php,txt,bak} try extensions.
+        \item \flag{-t 50} threads.
+        \item \flag{-o out.txt} save results.
+      \end{flaglist}
+      \cmdline{Quick requests}{curl -s -L http://TARGET:PORT/path}{Pull pages fast.}
+      \begin{flaglist}
+        \item \flag{-s} silent, \flag{-L} follow redirects.
+        \item \flag{-I} headers only.
+      \end{flaglist}
+    }
+
+    \SubBox{Extra Web Checks}{%
+      \cmdline{Headers}{curl -sI http://TARGET:PORT/}{See server + redirects.}
+      \cmdline{Robots}{curl -s http://TARGET:PORT/robots.txt}{Common “hidden paths” hint.}
+      \cmdline{Tech clues}{curl -s http://TARGET:PORT/ | head}{Quick peek at HTML.}
+    }
+  }
+  {%
+    \SubBox{Password Cracking}{%
+      \cmdline{unshadow}{unshadow /etc/passwd /etc/shadow}{Merge account list + hashes into one file for cracking.}
+      
+      {\scriptsize \textbf{/etc/passwd}: usernames/UIDs/shells (usually no hashes).}\par
+      {\scriptsize \textbf{/etc/shadow}: password hashes}\par\vspace{0.10em}
+      \cmdline{John}{john --wordlist=words.txt hashes.txt}{Try a wordlist.}
+      \begin{flaglist}
+        \item \flag{--format=} set hash type if needed.
+        \item \flag{--show} display cracked creds.
+        \item \flag{--rules} mutate words (bonus flags).
+      \end{flaglist}
+      \cmdline{Hashcat}{hashcat -m 0 -a 0 hashes.txt words.txt}{GPU cracking (optional): tune \flag{-m} mode + \flag{-a} attack.}
+    }
+
+    \SubBox{Useful Wordlists}{%
+      \cmdline{Common lists}{ls /usr/share/wordlists/}{Where wordlists often live.}
+      \cmdline{Make one}{sort -u words.txt > clean.txt}{Deduplicate a wordlist.}
+    }
+  }
+}
+
+\end{document}

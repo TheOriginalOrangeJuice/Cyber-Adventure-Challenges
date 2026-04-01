@@ -1,0 +1,15 @@
+NOTE TO SELF:
+
+This box is useless.
+
+Whoever built this system locked it down hard. No services worth touching,
+no creds lying around, nothing listening that shouldn't be.
+
+I left this file hidden just in case I need to confirm I was here,
+but there's nothing else to pull from this machine.
+
+If this ends up being found later, it just proves how empty this thing is.
+
+Moving on to the next host.
+
+FLAG: RCC{how_did_you_read_this_if_it_was_hidden?}

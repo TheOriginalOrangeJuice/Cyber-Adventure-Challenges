@@ -1,0 +1,3 @@
+Evidence drop is noisy. One payload in Evidence is over 10MB; it's the exfil target.
+Create Exfiltrate as your drop zone, but watch for an automated wiper task.
+Disable or remove the wiper, then move the payload. A watcher task will broadcast the flag when it sees the file.

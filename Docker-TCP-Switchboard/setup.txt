@@ -1,3 +1,0 @@
-1. Install Docker SwitchBoard (https://github.com/OverTheWireOrg/docker-tcp-switchboard)
-
-Create the "docker-tcp-switchboard.conf" with the following: 

@@ -7,7 +7,7 @@ Wants=network-online.target
 Type=simple
 User=root
 WorkingDirectory=/home/ipn/IPN/Docker/docker-tcp-switchboard
-ExecStart=/home/ipn/IPN/Docker/docker-tcp-switchboard/.venv/bin/python /home/ipn/IPN/Docker/docker-tcp-switchboard/docker-tcp-switchboard.conf
+ExecStart=/home/ipn/IPN/Docker/docker-tcp-switchboard/.venv/bin/python /home/ipn/IPN/Docker/docker-tcp-switchboard/docker-tcp-switchboard.py
 Restart=on-failure
 RestartSec=2
 Environment=PYTHONUNBUFFERED=1

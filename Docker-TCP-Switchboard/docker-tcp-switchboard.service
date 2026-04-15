@@ -1,0 +1,17 @@
+[Unit]
+Description=Docker TCP Switchboard
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/home/ipn/IPN/Docker/docker-tcp-switchboard
+ExecStart=/home/ipn/IPN/Docker/docker-tcp-switchboard/.venv/bin/python /home/ipn/IPN/Docker/docker-tcp-switchboard/docker-tcp-switchboard.py
+Restart=on-failure
+RestartSec=2
+Environment=PYTHONUNBUFFERED=1
+LimitNOFILE=1048576
+
+[Install]
+WantedBy=multi-user.target

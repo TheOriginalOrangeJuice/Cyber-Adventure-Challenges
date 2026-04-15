@@ -12,6 +12,13 @@ import copy
 import logging
 import logging.handlers
 logger = logging.getLogger("docker-tcp-switchboard")
+logger.propagate = False
+
+if not logger.handlers:
+    default_handler = logging.StreamHandler()
+    default_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+    logger.addHandler(default_handler)
+logger.setLevel(logging.INFO)
 
 # this is a global object that keeps track of the free ports
 # when requested, it allocated a new docker instance and returns it
@@ -103,7 +110,8 @@ class DockerPorts():
                 handler = logging.FileHandler(config["global"]["logfile"])
             formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
             handler.setFormatter(formatter)
-            logger.addHandler(handler)
+            if not any(isinstance(existing, logging.FileHandler) and getattr(existing, "baseFilename", None) == handler.baseFilename for existing in logger.handlers):
+                logger.addHandler(handler)
 
         # set log level
         if "global" in config.sections() and "loglevel" in config["global"]:
@@ -374,4 +382,3 @@ if __name__ == "__main__":
         logger.debug("Listening on port {}".format(outerport))
         reactor.listenTCP(outerport, DockerProxyFactory(name), interface=sys.argv[2] if len(sys.argv) > 2 else '')
     reactor.run()
-

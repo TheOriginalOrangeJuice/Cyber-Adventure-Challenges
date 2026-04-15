@@ -1,9 +1,6 @@
-version: "3.9"
-
 services:
   scout-a:
     image: debian:bullseye
-    container_name: scout-a
     command: |
       bash -lc "
       export DEBIAN_FRONTEND=noninteractive
@@ -27,11 +24,10 @@ services:
       hack_rcc1_net:
         ipv4_address: 172.18.0.5
 
-    restart: always
+    restart: unless-stopped
 
   scout-b:
     image: debian:bookworm
-    container_name: scout-b
     command: |
       bash -lc "
       export DEBIAN_FRONTEND=noninteractive
@@ -55,11 +51,10 @@ services:
     networks:
       hack_rcc1_net:
         ipv4_address: 172.18.0.9
-    restart: always
+    restart: unless-stopped
 
   scout-c:
     image: ubuntu:jammy
-    container_name: scout-c
     command: |
       bash -lc "
       export DEBIAN_FRONTEND=noninteractive
@@ -82,11 +77,10 @@ services:
       hack_rcc1_net:
         ipv4_address: 172.18.0.14
 
-    restart: always
+    restart: unless-stopped
 
   rcc-web:
     image: nginx:alpine
-    container_name: rcc-web
     ports:
       - "8090:80"
     volumes:
@@ -97,7 +91,7 @@ services:
       hack_rcc3_net:
         ipv4_address: 172.19.0.7
     
-    restart: always
+    restart: unless-stopped
 
 networks:
   hack_rcc1_net:

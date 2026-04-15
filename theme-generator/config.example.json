@@ -1,0 +1,31 @@
+{
+  "base_theme_dir": "../IPN Theme",
+  "output_dir": "../Acme Summit Theme",
+  "theme": {
+    "display_name": "Acme Summit Theme",
+    "short_display_name": "Acme",
+    "slug": "acme",
+    "code": "ACME",
+    "flag_prefix": "ACME",
+    "event_name": "Acme Summit",
+    "website_domain": "acmesummit.com",
+    "website_public_url": "https://acmesummit.com/",
+    "website_clone_url": "https://example.com/"
+  },
+  "people": {
+    "hash_users": [
+      "alex_rivera",
+      "jamie_owens",
+      "morgan_liu",
+      "samir_patel",
+      "dana_kim",
+      "taylor_brooks",
+      "casey_nguyen",
+      "nina_hart",
+      "omar_soto",
+      "riley_cho"
+    ],
+    "pipeline_owner": "blair_hassan",
+    "windows_protocol_user": "casey_nguyen"
+  }
+}

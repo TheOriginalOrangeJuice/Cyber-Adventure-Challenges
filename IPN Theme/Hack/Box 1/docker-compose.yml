@@ -1,9 +1,6 @@
-version: "3.9"
-
 services:
   scout-a:
     image: debian:bullseye
-    container_name: scout-a
     command: |
       bash -lc "
       export DEBIAN_FRONTEND=noninteractive
@@ -26,10 +23,10 @@ services:
     networks:
       hack_ipn1_net:
         ipv4_address: 172.18.0.5
+    restart: unless-stopped
 
   scout-b:
     image: debian:bookworm
-    container_name: scout-b
     command: |
       bash -lc "
       export DEBIAN_FRONTEND=noninteractive
@@ -53,10 +50,10 @@ services:
     networks:
       hack_ipn1_net:
         ipv4_address: 172.18.0.9
+    restart: unless-stopped
 
   scout-c:
     image: ubuntu:jammy
-    container_name: scout-c
     command: |
       bash -lc "
       export DEBIAN_FRONTEND=noninteractive
@@ -78,19 +75,20 @@ services:
     networks:
       hack_ipn1_net:
         ipv4_address: 172.18.0.14
+    restart: unless-stopped
 
   ipnsummit-web:
     image: nginx:alpine
-    container_name: ipnsummit-web
     ports:
       - "80:8090"
     volumes:
-      - /home/ipn/IPN/Hack/Box3/ipn_website/ipnsummit.com:/usr/share/nginx/html:ro
-      - /home/ipn/IPN/Hack/Box3/nginx-autoindex.conf:/etc/nginx/conf.d/default.conf:ro
+      - ../Box3/ipn_website/ipnsummit.com:/usr/share/nginx/html:ro
+      - ../Box3/nginx-autoindex.conf:/etc/nginx/conf.d/default.conf:ro
     
     networks:
       hack_ipn3_net:
         ipv4_address: 172.19.0.7
+    restart: unless-stopped
 
 networks:
   hack_ipn1_net:

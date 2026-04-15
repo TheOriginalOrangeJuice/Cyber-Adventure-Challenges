@@ -1,0 +1,18 @@
+services:
+  switchboard:
+    image: cyber-adventure-switchboard:latest
+    build:
+      context: .
+    container_name: cyber-adventure-switchboard
+    init: true
+    network_mode: host
+    restart: unless-stopped
+    environment:
+      PYTHONUNBUFFERED: "1"
+    command:
+      - /config/docker-tcp-switchboard.conf
+      - ${SWITCHBOARD_BIND_ADDRESS:-}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${SWITCHBOARD_CONFIG_PATH}:/config/docker-tcp-switchboard.conf:ro
+      - ${SWITCHBOARD_STATE_DIR}:/state

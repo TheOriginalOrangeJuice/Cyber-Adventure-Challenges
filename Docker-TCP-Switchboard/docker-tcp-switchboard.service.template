@@ -1,0 +1,16 @@
+[Unit]
+Description=Cyber Adventure Challenges
+Requires=docker.service
+After=docker.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+WorkingDirectory=__THEME_DIR__
+ExecStart=/usr/bin/env bash __THEME_DIR__/labctl.sh up
+ExecStop=/usr/bin/env bash __THEME_DIR__/labctl.sh down
+TimeoutStartSec=0
+
+[Install]
+WantedBy=multi-user.target

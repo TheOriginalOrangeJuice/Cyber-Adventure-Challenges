@@ -1,0 +1,12 @@
+[submodule "Docker-TCP-Switchboard/docker-tcp-switchboard"]
+	path = Docker-TCP-Switchboard/docker-tcp-switchboard
+	url = https://github.com/OverTheWireOrg/docker-tcp-switchboard.git
+[submodule "IPN Theme/CTFd"]
+	path = IPN Theme/CTFd
+	url = https://github.com/ctfd/ctfd.git
+[submodule "RowdyCon Theme/CTFd"]
+	path = RowdyCon Theme/CTFd
+	url = https://github.com/ctfd/ctfd.git
+[submodule "IPN Theme/Hack/Box3/ipn_website/website-downloader"]
+	path = IPN Theme/Hack/Box3/ipn_website/website-downloader
+	url = https://github.com/PKHarsimran/website-downloader.git
